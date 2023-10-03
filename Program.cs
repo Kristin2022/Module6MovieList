@@ -8,6 +8,42 @@ string path = Directory.GetCurrentDirectory() + "\\nlog.config";
 var logger = LogManager.LoadConfiguration(path).GetCurrentClassLogger();
 logger.Info("Program started");
 
-Console.WriteLine("Hello World!");
+Movie movie = new Movie
+{
+  movieId = 1,
+  title = "Jeff's Killer Movie (2019)",
+  genres = new List<string> { "Action", "Romance", "Comedy" }
+}; 
+Console.WriteLine(movie.Display());
+string movieFilePath = Directory.GetCurrentDirectory() + "\\movies.csv";
+MovieFile movieFile = new MovieFile(movieFilePath);
+
+string choice = "";
+do
+{
+  // display choices to user
+  Console.WriteLine("1) Add Movie");
+  Console.WriteLine("2) Display All Movies");
+  Console.WriteLine("Enter to quit");
+  // input selection
+  choice = Console.ReadLine();
+  logger.Info("User choice: {Choice}", choice);
+
+  
+  if (choice == "1")
+  {
+    // Add movie
+  } else if (choice == "2")
+  {
+    // Display All Movies
+    foreach(Movie m in movieFile.Movies)
+    {
+      Console.WriteLine(m.Display());
+    }
+  }
+} while (choice == "1" || choice == "2");
+
 
 logger.Info("Program ended");
+
+
