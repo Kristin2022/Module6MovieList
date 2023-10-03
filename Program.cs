@@ -8,13 +8,6 @@ string path = Directory.GetCurrentDirectory() + "\\nlog.config";
 var logger = LogManager.LoadConfiguration(path).GetCurrentClassLogger();
 logger.Info("Program started");
 
-Movie movie = new Movie
-{
-  movieId = 1,
-  title = "Jeff's Killer Movie (2019)",
-  genres = new List<string> { "Action", "Romance", "Comedy" }
-}; 
-Console.WriteLine(movie.Display());
 string movieFilePath = Directory.GetCurrentDirectory() + "\\movies.csv";
 MovieFile movieFile = new MovieFile(movieFilePath);
 
@@ -29,10 +22,39 @@ do
   choice = Console.ReadLine();
   logger.Info("User choice: {Choice}", choice);
 
-  
+ 
   if (choice == "1")
   {
     // Add movie
+       Movie movie = new Movie();
+    // ask user to input movie title
+    Console.WriteLine("Enter movie title");
+    // input title
+    movie.title = Console.ReadLine();
+    // verify title is unique
+    if (movieFile.isUniqueTitle(movie.title)){
+      Console.WriteLine("Movie title is unique\n");
+    }
+      // input genres
+      string input;
+      do
+      {
+        // ask user to enter genre
+        Console.WriteLine("Enter genre (or done to quit)");
+        // input genre
+        input = Console.ReadLine();
+        // if user enters "done"
+        // or does not enter a genre do not add it to list
+        if (input != "done" && input.Length > 0)
+        {
+          movie.genres.Add(input);
+        }
+      } while (input != "done");
+      // specify if no genres are entered
+      if (movie.genres.Count == 0)
+      {
+        movie.genres.Add("(no genres listed)");
+      }
   } else if (choice == "2")
   {
     // Display All Movies
